@@ -1,14 +1,13 @@
-import argparse
 import json
 
 from antlr4 import *
 
-import fuzzy.defuzzifiers as defuzzifiers
-import fuzzy.functions as functions
-import fuzzy.models as models
-from fuzzy.parsing.FuzzyLexer import FuzzyLexer
-from fuzzy.parsing.FuzzyParser import FuzzyParser
-from fuzzy.parsing.evaluator import Evaluator
+from .fuzzy import defuzzifiers
+from .fuzzy import functions
+from .fuzzy import models
+from .fuzzy.parsing.FuzzyLexer import FuzzyLexer
+from .fuzzy.parsing.FuzzyParser import FuzzyParser
+from .fuzzy.parsing.evaluator import Evaluator
 
 
 def print_dict(d: dict):
@@ -16,18 +15,11 @@ def print_dict(d: dict):
         print('%s: %.3f' % (key, value))
 
 
-def main():
-    # Parse arguments
-    parser = argparse.ArgumentParser()
-    parser.add_argument('rules')
-    parser.add_argument('data')
-    parser.add_argument('--step', default=0.1, type=float)
-    args = parser.parse_args()
-
+def process(rules_path, args_path):
     # Grab rules, data and step from parsed arguments
-    rules = FileStream(args.rules)
-    data = json.load(open(args.data))
-    step = args.step
+    rules = FileStream(rules_path)
+    data = json.load(open(args_path))
+    step = 0.1
 
     # Parse rules file
     lexer = FuzzyLexer(rules)
@@ -51,17 +43,13 @@ def main():
 
     if model == 'mamdani':
         defuzzy = getattr(defuzzifiers, defuzzy.lower())
-        print_dict(models.mamdani(output, defuzzy, funcs, step))
+        return models.mamdani(output, defuzzy, funcs, step)
 
     elif model == 'sugeno':
-        print_dict(models.sugeno(output))
+        return models.sugeno(output)
 
     elif model == 'tsukamoto':
-        print_dict(models.tsukamoto(output, funcs, step))
+        return models.tsukamoto(output, funcs, step)
 
     else:
         raise AttributeError()
-
-
-if __name__ == '__main__':
-    main()
