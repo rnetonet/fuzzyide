@@ -1,4 +1,3 @@
-# Generated from /media/eddy/Erato/Zchool/Computer Science/4º/VIII Semestre/Simulación/Proyectos/2. Lógica difusa/fuzzy_logic/fuzzy/parsing/Fuzzy.g4 by ANTLR 4.7
 # encoding: utf-8
 import sys
 from io import StringIO

@@ -1,4 +1,3 @@
-# Generated from /media/eddy/Erato/Zchool/Computer Science/4º/VIII Semestre/Simulación/Proyectos/2. Lógica difusa/fuzzy_logic/fuzzy/parsing/Fuzzy.g4 by ANTLR 4.7
 from antlr4 import *
 if __name__ is not None and "." in __name__:
     from .FuzzyParser import FuzzyParser
